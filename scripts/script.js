@@ -44,3 +44,22 @@ function formatToCurrency(amount) {
     return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
   }
   
+
+function doubleBalance(){
+    data=data.map(user=>{
+        return {...user,balance:user.balance*2}
+    });
+
+    updateDOM();
+}
+
+
+
+
+
+//Event Listeners
+btnAddUser.addEventListener('click',getRandomUser);
+
+btnDouble.addEventListener('click',doubleBalance);
+
+btnFilter.addEventListener('click',filterRich);
