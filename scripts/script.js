@@ -15,11 +15,10 @@ const getRandomUser=async function(){
     const response=await fetch('https://randomuser.me/api');
     const data=await response.json();
     const user=data.results[0];
- const newUser={
+    const newUser={
     name: `${user.name.first} ${user.name.last}`,
     balance: Math.floor(Math.random()*100000),
  };
-
  addData(newUser);
 }
 
@@ -30,10 +29,10 @@ const addData=function(obj){
 
 const updateDOM=function(providedData=data){
     //clear main
-    main.innerHTML="";
-    providedData.forEach(item=>{
+    main.innerHTML='<h2><strong>Name</strong> Balance</h2>';
+    providedData.forEach((item)=>{
         const element=document.createElement('div');
-        element.classList.add='users';
+        element.classList.add('users');
         element.innerHTML=`<strong>${item.name}</strong>$${item.balance}`;
         main.appendChild(element);
     });
@@ -53,9 +52,17 @@ function doubleBalance(){
     updateDOM();
 }
 
+const filterRich=function(){
+    data=data.filter((user)=>user.balance>50000);
+    updateDOM();
+}
 
-
-
+function totalBalance(){
+    const wealth=data.reduce((acc,user)=>(acc=acc+user.balance),0);
+    const wealth1=document.createElement('div');
+    wealth1.innerHTML=`<h3>Total Balance: <strong>$${formatToCurrency(wealth)}</strong></h3>`;
+    main.appendChild(wealth1);
+}
 
 //Event Listeners
 btnAddUser.addEventListener('click',getRandomUser);
@@ -63,3 +70,5 @@ btnAddUser.addEventListener('click',getRandomUser);
 btnDouble.addEventListener('click',doubleBalance);
 
 btnFilter.addEventListener('click',filterRich);
+
+btnTotal.addEventListener('click',totalBalance);
